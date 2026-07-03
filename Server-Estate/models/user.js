@@ -2,12 +2,12 @@ const {Schema , model} = require("mongoose");
 
 
 const userSchema = Schema({
-  name :{
+  username :{
     type:String,
     required:true,
     unique:true
   },
-  username:{
+  email:{
     type: String,
     required: true,
     unique: true
