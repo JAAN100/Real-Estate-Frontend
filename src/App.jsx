@@ -7,6 +7,7 @@ import Profile from './pages/Profile'
 import About from './pages/About'
 import NotFound404 from './pages/NotFound404'
 
+
 export default function App() {
   return (
     <Routes>
