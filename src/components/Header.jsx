@@ -87,7 +87,7 @@ export default function Header() {
           <nav className="space-y-4 border-t border-gray-200 py-4 lg:hidden">
             <NavLink
               to="/"
-              className="block font-medium text-gray-700 hover: text-emerald-600 "
+              className="block font-medium text-gray-700 hover:text-emerald-600 "
             >
               Home
             </NavLink>
