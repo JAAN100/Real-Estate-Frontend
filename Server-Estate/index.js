@@ -6,7 +6,7 @@ dotenv.config();
 const PORT = 8000;
 
 const {ConnectedToMongoDB} = require("./connection/connection"); 
-
+const Users = require("./models/user");
 
 ConnectedToMongoDB(process.env.MONGO_URI)
 .then(()=>{console.log("Connected to MongoDB");
@@ -20,8 +20,7 @@ app.use(express.json());
 
 
 
-
-
+app.use();
 
 
 
