@@ -4,7 +4,7 @@ const app = express();
 const dotenv = require("dotenv");
 dotenv.config();
 const PORT = 8000;
-const Router = require("./routes/user");
+const userRouter = require("./routes/auth.router");
 const {ConnectedToMongoDB} = require("./connection/connection"); 
 
 
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 
-app.use("/api" , Router);
+app.use("/api/auth" , userRouter);
 
 
 
