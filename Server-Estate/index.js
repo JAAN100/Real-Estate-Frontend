@@ -6,6 +6,7 @@ dotenv.config();
 const PORT = 8000;
 const userRouter = require("./routes/auth.router");
 const {ConnectedToMongoDB} = require("./connection/connection"); 
+const { AuthMiddleWare } = require("./middlewares/error.middleware");
 
 
 ConnectedToMongoDB(process.env.MONGO_URI)
@@ -24,7 +25,7 @@ app.use(express.urlencoded({extended:false}));
 
 app.use("/api/auth" , userRouter);
 
-
+app.use(AuthMiddleWare);
 
 app.listen(PORT , ()=>{console.log("Connected to the Server");
 })
