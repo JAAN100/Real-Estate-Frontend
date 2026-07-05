@@ -125,7 +125,7 @@ export default function SignUp() {
     //   </div>
     // </div>
     <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
+      <h1 className="text-3xl text-center font-semibold my-7 text-emerald-700">Sign <span className="text-black">Up</span></h1>
       <form className="flex flex-col gap-5">
         <input 
           className="border p-3 
@@ -145,18 +145,26 @@ export default function SignUp() {
           placeholder="password"
           id="password" 
         />
-        <button disabled
-        className="bg-slate-700
+        <button
+        className="bg-emerald-600
                    text-white p-3 
                       rounded-lg uppercase 
-                      hover:opacity-95
-                      disabled:opacity-80">
+                      hover:opacity-90
+                      disabled:opacity-60">
           Sign Up
         </button>
+                <button   
+        className="bg-red-600
+                   text-white p-3 
+                      rounded-lg uppercase 
+                      hover:opacity-90
+                      disabled:opacity-60">
+          Continue with google
+        </button>
       </form>
-      <div className="flex gap-2 mt-5">
-        <p>Have an account?</p>
-        <Link to="/sign-in" className="text-blue-700">Sign In</Link>
+      <div className="flex gap-2 mt-5 justify-center">
+        <p className="font-semibold">Already have an account?</p>
+        <Link to="/sign-in" className="text-emerald-700">Sign In</Link>
       </div>
     </div>
   );
