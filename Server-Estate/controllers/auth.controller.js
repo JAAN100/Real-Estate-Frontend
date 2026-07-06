@@ -1,5 +1,10 @@
 const Users =  require("../models/user");
 const bcryptjs = require("bcryptjs");
+const { ErrorHandler } = require("../utils/error");
+const jwt = require("jsonwebtoken");
+
+
+
 async function SignUp(req , res , next) {
   const {username , email , password} = req.body;
   try{
@@ -18,7 +23,25 @@ async function SignUp(req , res , next) {
 }
 
 
+async function SignIn(req , res , next){
+  const{email , password} = req.body;
+  try{
+    const validUser = await Users.findOne({email});
+    if(!validUser){return next(ErrorHandler(404 , 'User Not Found'));}
+    const validPassword = await bcryptjs.compare(password , validUser.password);
+    if(!validPassword){return next(ErrorHandler(401 , 'Wrong credentials!'));}
+    const token = jwt.sign({id : validUser._id} , process.env.JWT_TOKEN , {expiresIn : "1d"});
+    const {password : pass , ...restUser} = validUser._doc;
+    res.cookie('token' , token, {httpOnly: true , maxAge : 24 * 60 * 60 * 1000})
+    .status(200)
+    .json(restUser);
+  }catch(error){
+    next(error);
+  }
+}
+
+
 module.exports = {
   SignUp,
-
+  SignIn
 }
