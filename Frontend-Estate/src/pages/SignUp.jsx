@@ -1,7 +1,6 @@
 import { Link , useNavigate} from "react-router-dom";
-import { Landmark, Mail, Lock, User } from "lucide-react";
+import { Landmark, Mail, Lock, User ,LoaderCircle , Eye, EyeOff} from "lucide-react";
 import { useState } from "react";
-import { LoaderCircle , Eye, EyeOff} from "lucide-react";
 
 export default function SignUp() {
   const [foamData , setFoamData] = useState({});
