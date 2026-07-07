@@ -30,9 +30,9 @@ async function SignIn(req , res , next){
     if(!validUser){return next(ErrorHandler(404 , 'User Not Found'));}
     const validPassword = await bcryptjs.compare(password , validUser.password);
     if(!validPassword){return next(ErrorHandler(401 , 'Wrong credentials!'));}
-    const token = jwt.sign({id : validUser._id} , process.env.JWT_TOKEN , {expiresIn : "1d"});
+    const token = jwt.sign({id : validUser._id} , process.env.JWT_TOKEN);
     const {password : pass , ...restUser} = validUser._doc;
-    res.cookie('token' , token, {httpOnly: true , maxAge : 24 * 60 * 60 * 1000})
+    res.cookie('token' , token, {httpOnly: true})
     .status(200)
     .json(restUser);
   }catch(error){

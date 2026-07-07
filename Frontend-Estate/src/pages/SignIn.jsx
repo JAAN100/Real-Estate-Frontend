@@ -1,12 +1,14 @@
 import { Link , useNavigate} from "react-router-dom";
 import { Landmark, Mail, Lock, User ,LoaderCircle , Eye, EyeOff} from "lucide-react";
 import { useState } from "react";
+import {useDispatch, useSelector} from 'react-redux';
+import { signInStart , signInSuccess , signInFailed } from "../redux/user/userSlice";
 
 export default function SignIn() {
    const [foamData , setFoamData] = useState({});
-  const [error , setError] = useState(null);
-  const [loading , setLoading] = useState(false);
   const [showPassword , setShowPassword] = useState(false);
+  const {loading , error} = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleInput = (e)=>{
     setFoamData({
@@ -16,7 +18,7 @@ export default function SignIn() {
   }
   const handleSubmit = async(e)=>{
     e.preventDefault();
-    setLoading(true);
+    dispatch(signInStart(true));
     const response = await fetch('/api/auth/signin' , 
       {
         method: 'POST',
@@ -28,13 +30,13 @@ export default function SignIn() {
     );
     const data = await response.json();
     if(data.success == false){
-      setLoading(false);
-      setError(data.message);
+      dispatch(signInFailed(data.message));
       setTimeout(()=>{
-        setError(null);
+        data.message =null;
       } , 5000);
       return;
     }
+    dispatch(signInSuccess(data))
     navigate('/');   
   }
   return (
