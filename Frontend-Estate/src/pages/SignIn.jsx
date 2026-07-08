@@ -32,10 +32,12 @@ export default function SignIn() {
     if(data.success == false){
       dispatch(signInFailed(data.message));
       setTimeout(()=>{
-        data.message =null;
+         dispatch(signInFailed(null));
       } , 5000);
       return;
     }
+    console.log(data);
+    
     dispatch(signInSuccess(data))
     navigate('/');   
   }
