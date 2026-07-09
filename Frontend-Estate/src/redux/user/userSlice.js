@@ -4,7 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   currentUser: null,
   error : null,
-  loading : null,
+  loading : false,
+  showPassword : false,
 }
 
 const userSlice = createSlice({
@@ -22,10 +23,13 @@ const userSlice = createSlice({
     signInFailed:(state ,action)=>{
       state.error = action.payload;
       state.loading = false;
+    },
+    setShowPassword:(state , action)=>{
+      state.showPassword = action.payload
     }
   }
 })
 
 
-export const {signInStart , signInSuccess , signInFailed} = userSlice.actions;
+export const {signInStart , signInSuccess , signInFailed , setShowPassword} = userSlice.actions;
 export default userSlice.reducer;

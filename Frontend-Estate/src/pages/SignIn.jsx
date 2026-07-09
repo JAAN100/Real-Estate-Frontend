@@ -2,12 +2,12 @@ import { Link , useNavigate} from "react-router-dom";
 import { Landmark, Mail, Lock, User ,LoaderCircle , Eye, EyeOff} from "lucide-react";
 import { useState } from "react";
 import {useDispatch, useSelector} from 'react-redux';
-import { signInStart , signInSuccess , signInFailed } from "../redux/user/userSlice";
+import { signInStart , signInSuccess , signInFailed , setShowPassword} from "../redux/user/userSlice";
 
 export default function SignIn() {
    const [foamData , setFoamData] = useState({});
-  const [showPassword , setShowPassword] = useState(false);
-  const {loading , error} = useSelector((state) => state.user);
+  
+  const {loading , error , showPassword} = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleInput = (e)=>{
@@ -60,7 +60,7 @@ export default function SignIn() {
           />
           <button
             type="button"
-            onClick={() => setShowPassword(!showPassword)}
+            onClick={() => dispatch(setShowPassword(!showPassword))}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600"
           >
           {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -74,6 +74,14 @@ export default function SignIn() {
                       hover:opacity-90
                       disabled:opacity-50">
           {loading ? <LoaderCircle className="animate-spin h-6 w-6 text-white" /> : "Sign in"}
+        </button>
+        <button   
+          className="bg-red-600
+                   text-white p-3 
+                      rounded-lg uppercase 
+                      hover:opacity-90
+                      disabled:opacity-60">
+          Continue with google
         </button>
       </form>
       <div className="flex gap-2 mt-5 justify-center">
