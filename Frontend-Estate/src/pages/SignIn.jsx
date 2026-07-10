@@ -3,7 +3,7 @@ import { Landmark, Mail, Lock, User ,LoaderCircle , Eye, EyeOff} from "lucide-re
 import { useState } from "react";
 import {useDispatch, useSelector} from 'react-redux';
 import { signInStart , signInSuccess , signInFailed , setShowPassword} from "../redux/user/userSlice";
-
+import OAuth from "../components/OAuth";
 export default function SignIn() {
    const [foamData , setFoamData] = useState({});
   
@@ -36,8 +36,6 @@ export default function SignIn() {
       } , 5000);
       return;
     }
-    console.log(data);
-    
     dispatch(signInSuccess(data))
     navigate('/');   
   }
@@ -75,14 +73,7 @@ export default function SignIn() {
                       disabled:opacity-50">
           {loading ? <LoaderCircle className="animate-spin h-6 w-6 text-white" /> : "Sign in"}
         </button>
-        <button   
-          className="bg-red-600
-                   text-white p-3 
-                      rounded-lg uppercase 
-                      hover:opacity-90
-                      disabled:opacity-60">
-          Continue with google
-        </button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5 justify-center">
         <p className="font-semibold">Don't have an account?</p>

@@ -1,7 +1,7 @@
 import { Link , useNavigate} from "react-router-dom";
 import { Landmark, Mail, Lock, User ,LoaderCircle , Eye, EyeOff} from "lucide-react";
 import { useState } from "react";
-
+import OAuth from "../components/OAuth";
 export default function SignUp() {
   const [foamData , setFoamData] = useState({});
   const [error , setError] = useState(null);
@@ -77,14 +77,7 @@ export default function SignUp() {
                       disabled:opacity-50">
           {loading ? <LoaderCircle className="animate-spin h-6 w-6 text-white" /> : "Sign up"}
         </button>
-                <button   
-        className="bg-red-600
-                   text-white p-3 
-                      rounded-lg uppercase 
-                      hover:opacity-90
-                      disabled:opacity-60">
-          Continue with google
-        </button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5 justify-center">
         <p className="font-semibold">Already have an account?</p>
