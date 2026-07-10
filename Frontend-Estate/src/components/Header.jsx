@@ -1,10 +1,11 @@
 import {React , useState , useRef} from 'react'
 import { NavLink } from 'react-router-dom';
 import { Menu, X, Search, Landmark} from "lucide-react";
-
+import { useSelector } from 'react-redux';
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const inputRef = useRef(null);
+  const {currentUser} = useSelector((state) => state.user); 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -49,12 +50,16 @@ export default function Header() {
             >
               About
             </NavLink>
-
-            <NavLink
-              to="/sign-in"
-              className="rounded-full bg-emerald-600 px-5 py-2 text-white transition hover:bg-emerald-700"
-            >
-              Sign In
+            <NavLink to="/profile">
+            {currentUser ? (
+              <div className="flex items-center gap-4">
+                <img type="button" className="h-7 w-7 rounded-full object-cover" src={currentUser.avatar} alt="Profile" />
+              </div>
+            ) : (
+              <p  className="rounded-full bg-emerald-600 px-5 py-2 text-white transition hover:bg-emerald-700"
+             >Sign In</p>
+                
+            )}
             </NavLink>
           </nav>
 
@@ -98,13 +103,18 @@ export default function Header() {
             >
               About
             </NavLink>
-
-            <NavLink
-              to="/sign-in"
-              className="block rounded-lg bg-emerald-600 px-4 py-2 text-center text-white hover:bg-emerald-700"
-            >
-              Sign In
-            </NavLink>
+             <NavLink to="/profile">
+            {currentUser ? (
+              <div className="flex items-center gap-4">
+                <img type="button" src={currentUser.avatar} alt="Profile" className="h-7 w-7 rounded-full object-cover" />
+              </div>
+            ) : (
+              <p className="block rounded-lg bg-emerald-600 px-4 py-2 text-center text-white hover:bg-emerald-700">
+                Sign In
+              </p>
+            )}
+              </NavLink>
+           
           </nav>
         )}
       </div>
