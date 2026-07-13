@@ -3,10 +3,15 @@ const cors = require("cors");
 const app = express();
 const dotenv = require("dotenv");
 dotenv.config();
+
+const cookieParser = require("cookie-parser");
+
 const PORT = 8000;
-const userRouter = require("./routes/auth.router");
+const authRouter = require("./routes/auth.router");
+const userRouter = require("./routes/user.router");
 const {ConnectedToMongoDB} = require("./connection/connection"); 
 const { AuthMiddleWare } = require("./middlewares/error.middleware");
+const { verfiyUser } = require("./utils/verifyUser");
 
 
 ConnectedToMongoDB(process.env.MONGO_URI)
@@ -21,9 +26,10 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+app.use(cookieParser());
 
-
-app.use("/api/auth" , userRouter);
+app.use("/api/auth" , authRouter);
+app.use("/api/user" , verfiyUser ,userRouter);
 
 app.use(AuthMiddleWare);
 

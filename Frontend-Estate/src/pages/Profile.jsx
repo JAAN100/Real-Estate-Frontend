@@ -55,9 +55,7 @@ export default function Profile() {
             {photo !== undefined ? "" : "Error: Photo not updated"}
           </p>
           <p className="text-sm text-green-500">
-             {photo !== undefined && photo !== currentUser?.avatar ? setTimeout(() => {
-               "Uploaded Successfully"
-            }, 3000) : ""}
+           {photo !== undefined && photo !== currentUser?.avatar ? "Photo updated successfully" : ""}
           </p>
         </div>
 
