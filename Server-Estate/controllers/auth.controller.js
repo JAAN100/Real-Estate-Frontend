@@ -60,8 +60,8 @@ async function GoogleAuth(req , res , next){
         password : hashPassword,  
         avatar : req.body.photo,
       })
-      const token = jwt.sign({id : user._id} , process.env.JWT_TOKEN);
-      const {password , ...restUser} = user._doc;
+      const token = jwt.sign({id : newUser._id} , process.env.JWT_TOKEN);
+      const {password , ...restUser} = newUser._doc;
       res.cookie('token' , token, {httpOnly: true})
       .status(200)
       .json(restUser);

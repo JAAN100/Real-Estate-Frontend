@@ -25,4 +25,18 @@ async function updateUser(req, res) {
     
 }
 
-module.exports = { updateUser };
+
+async function deleteUser(req, res) {
+    if(req.user.id !== req.params.id){
+        return next(ErrorHandler(401 , 'You cannot delete this account data!!'));
+    }
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.clearCookie("token");
+        res.status(200).json({ message: "User deleted successfully" });
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports = { updateUser, deleteUser };

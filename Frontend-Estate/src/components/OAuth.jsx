@@ -4,7 +4,7 @@ import { GoogleAuthProvider , getAuth , signInWithPopup} from "firebase/auth";
 import {signInStart , signInSuccess , signInFailed} from "../redux/user/userSlice";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-export default function OAuth() {
+function OAuth() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleGoogleClick = async()=>{
@@ -14,7 +14,7 @@ export default function OAuth() {
             const result = await signInWithPopup(auth , provider);
             const user = result.user;
             
-            dispatch(signInStart(true));
+            dispatch(signInStart());
             const response = await fetch('/api/auth/google' ,
                 {
                     method: 'POST',
@@ -29,16 +29,15 @@ export default function OAuth() {
                 }
             );
             const data = await response.json();
-            if(!data.success){                
-                dispatch(signInSuccess(data));
-                navigate("/");
-            }else{
+            if(data.success === false){                
                 dispatch(signInFailed(data.message));
                 setTimeout(()=>{
                     dispatch(signInFailed(null));
                 } , 5000);
                 return;
             }
+            dispatch(signInSuccess(data));
+                navigate("/");
         }catch(err){
             dispatch(signInFailed(err.message));
             setTimeout(()=>{
@@ -57,3 +56,5 @@ export default function OAuth() {
     </button>
   )
 }
+
+export default OAuth;

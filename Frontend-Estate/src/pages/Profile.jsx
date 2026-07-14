@@ -1,7 +1,10 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CloudinaryUpload from "../components/CloudinaryUpload";
-import{updateUserStart, updateUserSuccess, updateUserFailed ,setShowPassword} from "../redux/user/userSlice";
+import{updateUserStart, updateUserSuccess, updateUserFailed ,setShowPassword
+  , deleteUserStart, deleteUserSuccess, deleteUserFailed
+} from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { Eye, EyeOff , LoaderCircle} from "lucide-react";
 
@@ -10,6 +13,8 @@ export default function Profile() {
   const {currentUser ,loading ,  error , showPassword} = useSelector((state) => state.user);
   const uploadRef = useRef(null);
   const [formData, setFormData] = useState({});
+  const [successMessage, setSuccessMessage] = useState(false);
+  const navigate = useNavigate();
 
   const handleFoamDataChange = (e) => {
     setFormData({
@@ -34,13 +39,36 @@ export default function Profile() {
         dispatch(updateUserFailed(data.message));
         return;
       }
-      dispatch(updateUserSuccess(data));
+      else{
+        dispatch(updateUserSuccess(data));
+        setSuccessMessage(true);
+        setTimeout(() => {
+          setSuccessMessage(false);
+        }, 5000);
+      }    
     } catch (error) {
-      dispatch(updateUserFailed(error.message));
+        dispatch(updateUserFailed(error.message));
     }
     
   };
 
+  const handleDelete = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const response = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = await response.json();
+      if (data.success == false) {
+        dispatch(deleteUserFailed(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess());
+      navigate("/sign-in");
+    } catch (error) {
+      dispatch(deleteUserFailed(error.message));
+    }
+  }
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
@@ -127,9 +155,11 @@ export default function Profile() {
          {loading ? <LoaderCircle className="animate-spin h-6 w-6 text-white" /> : "Update"}
         </button>
 
-
+        <p className="text-green-500 text-center">
+          {successMessage ? "Profile updated successfully" : ""}
+        </p>
         <div className="flex justify-between">
-          <span className="text-red-700 cursor-pointer hover:opacity-60">
+          <span onClick={handleDelete} className="text-red-700 cursor-pointer hover:opacity-60">
             Delete Account
           </span>
 
