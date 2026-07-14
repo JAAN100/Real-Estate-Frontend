@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CloudinaryUpload from "../components/CloudinaryUpload";
 import{updateUserStart, updateUserSuccess, updateUserFailed ,setShowPassword
-  , deleteUserStart, deleteUserSuccess, deleteUserFailed
+  , deleteUserStart, deleteUserSuccess, deleteUserFailed,
+  signOutStart, signOutSuccess, signOutFailed
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { Eye, EyeOff , LoaderCircle} from "lucide-react";
@@ -67,6 +68,25 @@ export default function Profile() {
       navigate("/sign-in");
     } catch (error) {
       dispatch(deleteUserFailed(error.message));
+    }
+  }
+  const handleSignOut = async() => {
+    try {
+      dispatch(signOutStart());
+      const response = await fetch(`/api/user/signout`, {
+        method: "GET",
+      });
+      const data = await response.json();
+      console.log(data.success);
+      
+      if (data.success == false) {
+        dispatch(signOutFailed(data.message));
+        return;
+      }
+        dispatch(signOutSuccess());
+        navigate("/sign-in");
+    } catch (error) {
+      dispatch(signOutFailed(error.message));
     }
   }
   return (
@@ -163,7 +183,7 @@ export default function Profile() {
             Delete Account
           </span>
 
-          <span className="text-red-700 cursor-pointer hover:opacity-60">
+          <span onClick={handleSignOut} className="text-red-700 cursor-pointer hover:opacity-60">
             Sign out
           </span>
         </div>
