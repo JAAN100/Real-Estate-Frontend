@@ -1,26 +1,44 @@
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import CloudinaryUpload from "../components/CloudinaryUpload";
+import{updateUserStart, updateUserSuccess, updateUserFailed ,setShowPassword} from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
+import { Eye, EyeOff , LoaderCircle} from "lucide-react";
 
 export default function Profile() {
-  const { currentUser } = useSelector((state) => state.user);
-
+  const dispatch = useDispatch();
+  const {currentUser ,loading ,  error , showPassword} = useSelector((state) => state.user);
   const uploadRef = useRef(null);
+  const [formData, setFormData] = useState({});
 
-  const [photo, setPhoto] = useState(currentUser?.avatar || null);
-  const [username, setUsername] = useState(currentUser?.username || "");
-  const [email, setEmail] = useState(currentUser?.email || "");
-  const [password, setPassword] = useState("");
+  const handleFoamDataChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const updatedUser = {
-      username,
-      email,
-      password,
-      avatar: photo,
-    };
+    try {
+      dispatch(updateUserStart());
+      const response = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      if (data.success == false) {
+        dispatch(updateUserFailed(data.message));
+        return;
+      }
+      dispatch(updateUserSuccess(data));
+    } catch (error) {
+      dispatch(updateUserFailed(error.message));
+    }
+    
   };
 
   return (
@@ -36,7 +54,7 @@ export default function Profile() {
 
         <div className="flex flex-col items-center gap-3">
           <img
-            src={photo || "https://via.placeholder.com/150"}
+            src={formData.avatar || currentUser?.avatar}
             alt="profile"
             className="rounded-full border-2 border-gray-300 cursor-pointer"
             width={150}
@@ -46,16 +64,20 @@ export default function Profile() {
 
           <CloudinaryUpload
             ref={uploadRef}
-            onUpload={(url) => setPhoto(url)}
+            onUpload={(url) =>
+              handleFoamDataChange({
+                target: {
+                  id: "avatar",
+                  value: url,
+                },
+              })
+            }
           />
           <p className="text-sm text-gray-500">
             Click on the image to upload a new profile picture
           </p>
-          <p className="text-sm text-red-500">
-            {photo !== undefined ? "" : "Error: Photo not updated"}
-          </p>
           <p className="text-sm text-green-500">
-           {photo !== undefined && photo !== currentUser?.avatar ? "Photo updated successfully" : ""}
+           {formData.avatar !== undefined && formData.avatar !== currentUser?.avatar ? "Photo updated successfully" : ""}
           </p>
         </div>
 
@@ -64,8 +86,8 @@ export default function Profile() {
           type="text"
           id="username"
           placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          defaultValue={currentUser?.username}
+          onChange={handleFoamDataChange}
           className="border-2 border-gray-300 rounded-md p-2"
         />
 
@@ -74,27 +96,35 @@ export default function Profile() {
           type="email"
           id="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          defaultValue={currentUser?.email}
+          onChange={handleFoamDataChange}
           className="border-2 border-gray-300 rounded-md p-2"
         />
 
 
-        <input
-          type="password"
-          id="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border-2 border-gray-300 rounded-md p-2"
-        />
+        <div className="relative">
+          <input 
+            className="border p-3 w-full
+            rounded-lg" type={showPassword ? "text" : "password"} 
+            placeholder="password"
+            id="password" onChange={handleFoamDataChange}
+          />
+          <button
+            type="button"
+            onClick={() => dispatch(setShowPassword(!showPassword))}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600"
+          >
+          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
 
 
         <button
+          disabled={loading}
           type="submit"
-          className="bg-blue-500 text-white p-2 rounded-md hover:opacity-80 transition"
+          className="flex justify-center items-center bg-blue-500 text-white p-2 rounded-md hover:opacity-90 disabled:opacity-50 transition"
         >
-          Update
+         {loading ? <LoaderCircle className="animate-spin h-6 w-6 text-white" /> : "Update"}
         </button>
 
 
@@ -107,6 +137,9 @@ export default function Profile() {
             Sign out
           </span>
         </div>
+
+        {error ? <p className="bg-orange-600
+                  text-white mt-5 rounded-lg uppercase p-3">{error}</p> : ""}
 
       </form>
     </div>
