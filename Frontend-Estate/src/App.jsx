@@ -4,10 +4,10 @@ import Home from './pages/Home'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Profile from './pages/Profile'
+import CreateListing from './pages/CreateListing'
 import About from './pages/About'
 import NotFound404 from './pages/NotFound404'
 import PrivateProfile from './components/PrivateProfile'
-
 
 export default function App() {
   return (
@@ -17,6 +17,7 @@ export default function App() {
       <Route path='/sign-up' element={<SignUp />} />
       <Route element={<PrivateProfile/>}>
         <Route path='/profile' element={<Profile />} />
+        <Route path='/create-listing' element={<CreateListing />} />
       </Route>
       <Route path='/about' element={<About />} />
       <Route path='*' element={<NotFound404/>}/>

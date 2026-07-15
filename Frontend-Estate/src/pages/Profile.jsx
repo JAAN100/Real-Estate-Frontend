@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link} from "react-router-dom";
 import { useSelector } from "react-redux";
 import CloudinaryUpload from "../components/CloudinaryUpload";
 import{updateUserStart, updateUserSuccess, updateUserFailed ,setShowPassword
@@ -170,10 +170,13 @@ export default function Profile() {
         <button
           disabled={loading}
           type="submit"
-          className="flex justify-center items-center bg-blue-500 text-white p-2 rounded-md hover:opacity-90 disabled:opacity-50 transition"
+          className="uppercase flex justify-center items-center bg-blue-500 text-white p-2 rounded-md hover:opacity-90 disabled:opacity-50 transition"
         >
          {loading ? <LoaderCircle className="animate-spin h-6 w-6 text-white" /> : "Update"}
         </button>
+        <Link to="/create-listing" className="text-center p-2 uppercase rounded-md text-white bg-emerald-700 hover:opacity-90 transition">
+          Create Listing
+        </Link>
 
         <p className="text-green-500 text-center">
           {successMessage ? "Profile updated successfully" : ""}
