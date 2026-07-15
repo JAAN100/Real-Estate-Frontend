@@ -10,6 +10,8 @@ const cookieParser = require("cookie-parser");
 const PORT = 8000;
 const authRouter = require("./routes/auth.router");
 const userRouter = require("./routes/user.router");
+const listingRouter = require("./routes/listing.route");
+
 const {ConnectedToMongoDB} = require("./connection/connection"); 
 const { AuthMiddleWare } = require("./middlewares/error.middleware");
 const { verfiyUser } = require("./utils/verifyUser");
@@ -31,7 +33,7 @@ app.use(cookieParser());
 
 app.use("/api/auth" , authRouter);
 app.use("/api/user" , verfiyUser ,userRouter);
-
+app.use("/api/listing" , verfiyUser , listingRouter);
 app.use(AuthMiddleWare);
 
 app.listen(PORT , ()=>{console.log("Connected to the Server");
