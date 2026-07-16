@@ -181,6 +181,8 @@ export default function Profile() {
         <p className="text-green-500 text-center">
           {successMessage ? "Profile updated successfully" : ""}
         </p>
+            {error ? <p className="bg-orange-600
+              text-white mt-2 rounded-lg uppercase p-3">{error}</p> : ""}
         <div className="flex justify-between">
           <span onClick={handleDelete} className="text-red-700 cursor-pointer hover:opacity-60">
             Delete Account
@@ -190,10 +192,6 @@ export default function Profile() {
             Sign out
           </span>
         </div>
-
-        {error ? <p className="bg-orange-600
-                  text-white mt-5 rounded-lg uppercase p-3">{error}</p> : ""}
-
       </form>
     </div>
   );
