@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Listing = require("../models/listing");
 const bcryptjs = require("bcryptjs");
 const { ErrorHandler } = require("../utils/error");
 async function updateUser(req, res) {
@@ -46,5 +47,15 @@ async function signOut(req, res) {
     } catch (error) {
         next(error);
     }}
-
-module.exports = { updateUser, deleteUser, signOut };
+async function getUserListings(req, res) {
+    if(req.user.id !== req.params.id){
+       return next(ErrorHandler(401 , 'You cannot access this account data!!'));
+    }
+    try {
+        const listing = await Listing.find({ userRef: req.params.id });
+        res.status(200).json(listing);
+    } catch (error) {
+        next(error);
+    }
+}
+module.exports = { updateUser, deleteUser, signOut , getUserListings};

@@ -118,7 +118,7 @@ export default function CreateListing() {
       setTimeout(() => {
         setSuccessMessage(false);
       }, 5000);
-      navigate("/listing/"+data._id);
+      navigate("/listing/"+ data._id);
     } catch (error) {
       setDataUploading(false);
       setImageUploadErr("Failed to create listing: " + error.message);

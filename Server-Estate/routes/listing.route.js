@@ -6,5 +6,4 @@ router.post("/create" , createListing);
 
 
 
-
 module.exports = router;
