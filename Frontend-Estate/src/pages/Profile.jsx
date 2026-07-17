@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { useNavigate , Link} from "react-router-dom";
 import { useSelector } from "react-redux";
 import CloudinaryUpload from "../components/CloudinaryUpload";
@@ -7,14 +7,18 @@ import{updateUserStart, updateUserSuccess, updateUserFailed ,setShowPassword
   signOutStart, signOutSuccess, signOutFailed
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
-import { Eye, EyeOff , LoaderCircle} from "lucide-react";
+import { Eye, EyeOff , Loader, LoaderCircle} from "lucide-react";
 
 export default function Profile() {
   const dispatch = useDispatch();
   const {currentUser ,loading ,  error , showPassword} = useSelector((state) => state.user);
   const uploadRef = useRef(null);
+  const listingRef = useRef(null);
   const [formData, setFormData] = useState({});
   const [successMessage, setSuccessMessage] = useState(false);
+  const [showListingErr , setShowListingErr] = useState(false);
+  const [listingLoader , setListingLoader] = useState(false);
+  const [userListings , setUserListings] = useState([]);
   const navigate = useNavigate();
 
   const handleFoamDataChange = (e) => {
@@ -89,6 +93,33 @@ export default function Profile() {
       dispatch(signOutFailed(error.message));
     }
   }
+  const handleListing = async() => {
+    try {
+      setListingLoader(true);
+      const response = await fetch(`/api/user/listing/${currentUser._id}`, {
+        method: "GET",
+      });
+      const data = await response.json();
+      setListingLoader(false);
+      if(data.success == false){
+        setShowListingErr(true);
+        setTimeout(()=>{
+        setShowListingErr(false);
+      },5000)
+        return;
+      }
+      setShowListingErr(false);
+      setUserListings(data);
+    } catch (error) {
+      setListingLoader(false);
+      setShowListingErr(true);
+    }
+  }
+  useEffect(()=>{
+    listingRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  } , [userListings])
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
@@ -193,6 +224,32 @@ export default function Profile() {
           </span>
         </div>
       </form>
+      <button onClick={handleListing} className="text-green-700 m-auto block mt-4">
+          {listingLoader ? "Load Listing..." : "Show Listng"}
+      </button>
+      {showListingErr && <p className="text-red-700 text-center mt-1">No listing found</p>}
+       
+          {userListings && userListings.length > 0 && 
+           <div className="mt-5" ref={listingRef}>
+            <h1 className="text-center text-2xl font-semibold">Your Listing</h1>
+            {
+              userListings.map((listing)=>(
+                <div key={listing._id} className="flex flex-row justify-between items-center mt-3 border border-slate-300 p-4 rounded-md">
+                  <Link to={`/listing/${listing._id}`}>
+                    <img className="h-16 w-16 object-contain" src={listing.imageUrls[0]} alt="listing-cover"/>
+                  </Link>
+                  <Link to={`/listing/${listing._id}`} className="flex-1 mx-3 hover:underline truncate">
+                    <p className="font-semibold">{listing.name}</p>
+                  </Link>
+                  <div className="flex flex-col gap-1">
+                    <button className="text-red-700 uppercase hover:opacity-60">Delete</button>
+                    <button className="text-green-700 uppercase hover:opacity-60">Edit</button>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+          }      
     </div>
   );
 }
