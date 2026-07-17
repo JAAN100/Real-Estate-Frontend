@@ -19,6 +19,7 @@ export default function Profile() {
   const [showListingErr , setShowListingErr] = useState(false);
   const [listingLoader , setListingLoader] = useState(false);
   const [userListings , setUserListings] = useState([]);
+  const [deleteListingLoader , setDeleteListingLoader] = useState(false);
   const navigate = useNavigate();
 
   const handleFoamDataChange = (e) => {
@@ -112,6 +113,25 @@ export default function Profile() {
       setUserListings(data);
     } catch (error) {
       setListingLoader(false);
+      setShowListingErr(true);
+    }
+  }
+  async function handleDeleteListing(id , e){
+    e.preventDefault();
+    try {
+      setDeleteListingLoader(true);
+      const response = await fetch(`/api/listing/delete/${id}`, {
+        method: "DELETE",
+      });
+      const data = await response.json();
+      setDeleteListingLoader(false);
+      if (data.success == false) {
+        setShowListingErr(true);
+        return;
+      }
+      setUserListings(data);
+      setShowListingErr(false);
+    } catch (error) {
       setShowListingErr(true);
     }
   }
@@ -230,8 +250,9 @@ export default function Profile() {
       {showListingErr && <p className="text-red-700 text-center mt-1">No listing found</p>}
        
           {userListings && userListings.length > 0 && 
-           <div className="mt-5" ref={listingRef}>
+           (<div className="mt-5" ref={listingRef}>
             <h1 className="text-center text-2xl font-semibold">Your Listing</h1>
+            {deleteListingLoader && <p className="text-center text-red-700">Deleting Listing...</p>}
             {
               userListings.map((listing)=>(
                 <div key={listing._id} className="flex flex-row justify-between items-center mt-3 border border-slate-300 p-4 rounded-md">
@@ -242,14 +263,14 @@ export default function Profile() {
                     <p className="font-semibold">{listing.name}</p>
                   </Link>
                   <div className="flex flex-col gap-1">
-                    <button className="text-red-700 uppercase hover:opacity-60">Delete</button>
+                    <button onClick={(e) => handleDeleteListing(listing._id, e)} className="text-red-700 uppercase hover:opacity-60">Delete</button>
                     <button className="text-green-700 uppercase hover:opacity-60">Edit</button>
                   </div>
                 </div>
               ))
             }
-          </div>
-          }      
+          </div>)
+          }    
     </div>
   );
 }

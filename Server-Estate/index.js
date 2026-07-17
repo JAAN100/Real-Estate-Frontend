@@ -31,6 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
 
+
 app.use("/api/auth" , authRouter);
 app.use("/api/user" , verfiyUser ,userRouter);
 app.use("/api/listing" , verfiyUser , listingRouter);
