@@ -1,11 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const { createListing , deleteListing , updateListing} = require("../controllers/listing.controller"); 
+const { verfiyUser } = require("../utils/verifyUser");
+const { createListing , deleteListing , updateListing , getListing} = require("../controllers/listing.controller"); 
 
-router.post("/create" , createListing);
+router.post("/create" , verfiyUser, createListing);
 
-router.delete("/delete/:id" , deleteListing);
+router.delete("/delete/:id" , verfiyUser, deleteListing);
 
 
-router.post("/update/:id" , updateListing);
+router.post("/update/:id" , verfiyUser, updateListing);
+
+router.get("/get/:id" , getListing);
+
 module.exports = router;

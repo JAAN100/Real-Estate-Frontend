@@ -14,7 +14,7 @@ const listingRouter = require("./routes/listing.route");
 
 const {ConnectedToMongoDB} = require("./connection/connection"); 
 const { AuthMiddleWare } = require("./middlewares/error.middleware");
-const { verfiyUser } = require("./utils/verifyUser");
+
 
 
 ConnectedToMongoDB(process.env.MONGO_URI)
@@ -33,8 +33,8 @@ app.use(cookieParser());
 
 
 app.use("/api/auth" , authRouter);
-app.use("/api/user" , verfiyUser ,userRouter);
-app.use("/api/listing" , verfiyUser , listingRouter);
+app.use("/api/user" ,userRouter);
+app.use("/api/listing" , listingRouter);
 app.use(AuthMiddleWare);
 
 app.listen(PORT , ()=>{console.log("Connected to the Server");

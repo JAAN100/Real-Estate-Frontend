@@ -8,7 +8,7 @@ import CreateListing from './pages/CreateListing'
 import About from './pages/About'
 import NotFound404 from './pages/NotFound404'
 import PrivateProfile from './components/PrivateProfile'
-
+import EditListing from './pages/EditListing'
 export default function App() {
   return (
     <Routes>
@@ -18,6 +18,7 @@ export default function App() {
       <Route element={<PrivateProfile/>}>
         <Route path='/profile' element={<Profile />} />
         <Route path='/create-listing' element={<CreateListing />} />
+        <Route path='/edit-listing/:id' element={<EditListing />} />
       </Route>
       <Route path='/about' element={<About />} />
       <Route path='*' element={<NotFound404/>}/>

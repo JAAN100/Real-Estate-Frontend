@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const { verfiyUser } = require("../utils/verifyUser");
 const { updateUser , deleteUser , signOut , getUserListings} = require("../controllers/user.controllers");
 
-router.post("/update/:id", updateUser);
+router.post("/update/:id", verfiyUser, updateUser);
 
-router.delete("/delete/:id", deleteUser);
+router.delete("/delete/:id", verfiyUser, deleteUser);
 
-router.get("/signout", signOut);
+router.get("/signout",verfiyUser ,signOut);
 
-router.get("/listing/:id" , getUserListings);
+router.get("/listing/:id" , verfiyUser, getUserListings);
 
 module.exports = router;
 
