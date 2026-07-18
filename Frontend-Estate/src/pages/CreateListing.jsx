@@ -164,7 +164,7 @@ export default function CreateListing() {
               <p>Bathrooms</p>
             </div>
             <div className='flex items-center gap-2'>
-              <input onChange={handleChange} value={foamData.regularPrice} className='border p-3 rounded-lg' max={1000000} min={50} type="number" id="regularPrice" />
+              <input onChange={handleChange} value={foamData.regularPrice} className='border p-3 rounded-lg' max={10000000} min={50} type="number" id="regularPrice" />
               <div className='flex flex-col items-center gap-2'>
                 <p>Regular Price</p>
                 {foamData.type === "rent" && <span className='text-xs'>($ / month)</span>}
@@ -173,7 +173,7 @@ export default function CreateListing() {
             </div>
             {foamData.offer && (
               <div className='flex items-center gap-2'>
-                <input onChange={handleChange} value={foamData.discountedPrice} className='border p-3 rounded-lg' max={1000000} min={0} type="number" id="discountedPrice" />
+                <input onChange={handleChange} value={foamData.discountedPrice} className='border p-3 rounded-lg' max={10000000} min={0} type="number" id="discountedPrice" />
                 <div className='flex flex-col items-center gap-2'>
                   <p>Discounted Price</p>
                   {foamData.type === "rent" && <span className='text-xs'>($ / month)</span>}
