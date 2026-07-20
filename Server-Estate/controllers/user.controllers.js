@@ -2,7 +2,7 @@ const User = require("../models/user");
 const Listing = require("../models/listing");
 const bcryptjs = require("bcryptjs");
 const { ErrorHandler } = require("../utils/error");
-async function updateUser(req, res) {
+async function updateUser(req, res , next) {
     if(req.user.id !== req.params.id){
         return next(ErrorHandler(401 , 'You cannot update this account data!!'));
     }
@@ -27,7 +27,7 @@ async function updateUser(req, res) {
 }
 
 
-async function deleteUser(req, res) {
+async function deleteUser(req, res , next) {
     if(req.user.id !== req.params.id){
         return next(ErrorHandler(401 , 'You cannot delete this account data!!'));
     }
@@ -40,14 +40,14 @@ async function deleteUser(req, res) {
     }
 }
 
-async function signOut(req, res) {
+async function signOut(req, res , next) {
     try {     
     res.clearCookie("token");
     res.status(200).json({ message: "Signed out successfully" });
     } catch (error) {
         next(error);
     }}
-async function getUserListings(req, res) {
+async function getUserListings(req, res , next) {
     if(req.user.id !== req.params.id){
        return next(ErrorHandler(401 , 'You cannot access this account data!!'));
     }
@@ -58,4 +58,17 @@ async function getUserListings(req, res) {
         next(error);
     }
 }
-module.exports = { updateUser, deleteUser, signOut , getUserListings};
+
+async function getUser(req, res , next) {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const {password: pass , ...rest} = user._doc;
+        res.status(200).json(rest);
+    } catch (error) {
+        next(error);
+    }
+}   
+module.exports = { updateUser, deleteUser, signOut , getUserListings , getUser};

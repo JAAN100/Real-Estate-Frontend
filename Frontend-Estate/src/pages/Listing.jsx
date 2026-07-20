@@ -1,17 +1,23 @@
-import {useState , useEffect} from 'react'
+import {useState , useEffect , useRef} from 'react'
 import { useParams } from 'react-router-dom';
 import {LoaderCircle} from 'lucide-react'
 import {Swiper , SwiperSlide} from 'swiper/react';
 import SwiperCore from 'swiper';
 import { Navigation } from 'swiper/modules';
 import {FaShare , FaMapMarkerAlt , FaBed , FaToilet , FaParking , FaChair}  from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import Contact from '../components/Contact';
 import 'swiper/css/bundle';
 export default function Listing() {
+    SwiperCore.use([Navigation]);
     const [listing, setListing] = useState({});
     const [loading, setLoading] = useState(true);
     const [Clipboard, setClipboard] = useState(false);
     const { listingId } = useParams();
     const [error, setError] = useState(null);
+    const [contactClient, setContactClient] = useState(false);
+    const {currentUser} = useSelector((state) => state.user);
+    const contactRef = useRef(null);
     useEffect(() => {
     const fetchListingData = async () => {
         try {
@@ -36,14 +42,16 @@ export default function Listing() {
     };
     fetchListingData();
     }, [listingId]);
-    
+    useEffect(() => {
+        contactRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [contactClient]);
   return (
     <main>  
      {loading && <LoaderCircle className='animate-spin w-50 h-50 m-auto mt-100'/>}
      {error && <div className='text-red-500 text-center mt-10'>{error}</div>}
      {listing && !loading && !error && (
        <div>
-        <Swiper   modules={[Navigation]} navigation>
+        <Swiper navigation>
             {listing.imageUrls.map((url) => (
                 <SwiperSlide key={url}>
                     <img className='object-cover w-full h-[500px]' src={url} alt="" />
@@ -68,7 +76,7 @@ export default function Listing() {
                 Link Copied
             </p>
             )}
-            <div className='flex flex-col max-w-4xl mx-auto p-3 my-7 gap-3'>
+            <div className='flex flex-col max-w-4xl mx-auto p-3 my-5  gap-3'>
                 <p className='text-2xl font-semibold'>
                     {listing.name} - {' '}
                     {
@@ -121,8 +129,13 @@ export default function Listing() {
                        {listing.furnished ? `Furnished` : `UnFurnished`}
                     </li>
                 </ul>
+                {currentUser && listing.userRef !== currentUser._id && !contactClient && 
+                  <div className='flex flex-col gap-3'>  
+                    <button className='uppercase mt-2 p-2 bg-slate-900 rounded-md text-white hover:opacity-80' onClick={() => setContactClient(true)}>Contact Landlord</button>
+                </div>
+                }
+                {contactClient && (<Contact ref={contactRef} listing={listing} />)}
             </div>
-
        </div>
      )}
      </main> 

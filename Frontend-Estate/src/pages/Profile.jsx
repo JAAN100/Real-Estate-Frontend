@@ -244,7 +244,7 @@ export default function Profile() {
           </span>
         </div>
       </form>
-      <button onClick={handleListing} className="text-green-700 m-auto block mt-4">
+      <button onClick={handleListing} className="text-green-700 m-auto block mt-3">
           {listingLoader ? "Load Listing..." : "Show Listng"}
       </button>
       {showListingErr && <p className="text-red-700 text-center mt-1">No listing found</p>}
