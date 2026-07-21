@@ -27,11 +27,12 @@ export default function Header() {
         {/* Top Navbar */}
         <div className="flex h-16 flex-wrap items-center justify-between">
           {/* Logo */}
+         <NavLink to="/" className="cursor-pointer">
           <h1 className="text-2xl font-bold text-emerald-600">
             <Landmark className="inline h-6 w-6 pb-1 text-emerald-600" />
             Hassan<span className="text-gray-900">Estate</span>
           </h1>
-
+          </NavLink>
           {/* Search Bar - Desktop */}
           <div className="hidden flex-1 justify-center px-8 lg:flex">
             <div className="relative w-full max-w-lg">

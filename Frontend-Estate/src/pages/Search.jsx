@@ -7,7 +7,7 @@ export default function Search() {
             <form className="flex flex-col gap-8">
                 <div className="flex items-center gap-2">
                     <label className="whitespace-nowrap font-semibold" htmlFor="searchTerm">Search Term:</label>
-                    <input type="text" id="searchTerm" placeholder="Search..." className="border p-3 rounded-lg w-full" />
+                    <input type="text" id="searchTerm" placeholder="Search..." className="border p-3 rounded-lg w-full focus:border-emerald-500 focus:outline-none" />
                 </div>   
                 <div className="flex flex-wrap items-center gap-2 mt-4">
                     <label htmlFor="propertyType" className="font-semibold">Type:</label>
@@ -48,11 +48,11 @@ export default function Search() {
                         <option value="dateDesc">Date: Newest First</option>
                     </select>
                 </div>
-                <button className='bg-slate-700 text-white rounded-md p-3 uppercase font-semibold hover:opacity-90'>Search</button>
+                <button className='bg-emerald-800 text-white rounded-md p-3 uppercase font-semibold hover:opacity-90'>Search</button>
             </form>
         </div>
         <div className="p-7 flex"> 
-            <h1 className="text-3xl font-semibold border-b-2  p-3 text-slate-700">Listing results:</h1>
+            <h1 className="text-3xl font-semibold border-b-2  p-3 text-emerald-800">Listing <span className='text-black'>results:</span></h1>
         </div> 
     </div>
   )
