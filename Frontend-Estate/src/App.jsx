@@ -10,6 +10,7 @@ import NotFound404 from './pages/NotFound404'
 import PrivateProfile from './components/PrivateProfile'
 import EditListing from './pages/EditListing'
 import Listing from './pages/Listing'
+import Search from './pages/Search'
 export default function App() {
   return (
     <Routes>
@@ -22,6 +23,7 @@ export default function App() {
         <Route path='/create-listing' element={<CreateListing />} />
         <Route path='/edit-listing/:id' element={<EditListing />} />
       </Route>
+      <Route path='/search' element={<Search />} />
       <Route path='/about' element={<About />} />
       <Route path='*' element={<NotFound404/>}/>
      </Routes>
