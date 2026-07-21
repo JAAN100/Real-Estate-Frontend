@@ -35,6 +35,7 @@ app.use(cookieParser());
 app.use("/api/auth" , authRouter);
 app.use("/api/user" ,userRouter);
 app.use("/api/listing" , listingRouter);
+
 app.use(AuthMiddleWare);
 
 app.listen(PORT , ()=>{console.log("Connected to the Server");
