@@ -1,7 +1,9 @@
 import {useState , useEffect} from 'react'
-import {useNavigate} from "react-router-dom"
+import {useNavigate , useLocation} from "react-router-dom"
+import ListingItem from '../components/ListingItem';
 export default function Search() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [sideBarData , setSideBarData] = useState({
         searchTerm : "",
         type : 'all',
@@ -13,7 +15,6 @@ export default function Search() {
     });    
     const [loading , setLoading] = useState(false);
     const [listings , setListings] = useState([]);
-    console.log(listings);
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const searchTermFromUrl = params.get('searchTerm');
@@ -35,7 +36,7 @@ export default function Search() {
                     type : typeFromUrl || 'all',
                     parking : parkingFromUrl === 'true' ? true : false,
                     furnished : furnishedFromUrl === 'true' ? true : false,
-                    offer : offerFromUrl === 'true' ? true : false,
+                    offer : offerFromUrl === 'true' ? true : false ,
                     sort : sortFromUrl || 'created_at',
                     order : orderFromUrl || 'desc'
                 });  
@@ -47,9 +48,8 @@ export default function Search() {
                     const res = await fetch(`/api/listing/get?${searchQuery}`);
                     const data = await res.json();                    
                     setListings(data);
-                    
+                    setLoading(false);
                 }catch(err){
-                }finally{
                     setLoading(false);
                 }
             }
@@ -64,13 +64,12 @@ export default function Search() {
             setSideBarData({...sideBarData , searchTerm: e.target.value});
         }
         if(e.target.id === 'parking' || e.target.id === 'furnished' || e.target.id === 'offer'){
-            setSideBarData({...sideBarData , [e.target.id]: e.target.checked || e.target.checked === 'true'?
-                true : false
+            setSideBarData({...sideBarData , [e.target.id]: e.target.checked,
             });
         }
         if(e.target.id === 'sort_order'){
-            const sort = e.target.value.split("_")[0] || 'created_at';
-            const order = e.target.value.split("_")[1] || 'desc';
+            const sort = e.target.value.split("_")[0] || 'createdAt_desc';
+            const order = e.target.value.split("_")[1] || 'regularPrice_desc';
             setSideBarData({...sideBarData , sort: sort , order: order});
         }
 
@@ -153,7 +152,7 @@ export default function Search() {
                     <label htmlFor="sort_order" className="font-semibold">Sort:</label>
                     <select id="sort_order" className="border p-3 rounded-lg"
                         onChange={handleChange}
-                        defaultValue={'created_at_desc'}
+                        value={`${sideBarData.sort}_${sideBarData.order}`}
                     >
                         <option value="regularPrice_asc">Price: Low to High</option>
                         <option value="regularPrice_desc">Price: High to Low</option>
@@ -164,8 +163,19 @@ export default function Search() {
                 <button className='bg-emerald-800 text-white rounded-md p-3 uppercase font-semibold hover:opacity-90'>Search</button>
             </form>
         </div>
-        <div className="p-7 flex"> 
-            <h1 className="text-3xl font-semibold border-b-2  p-3 text-emerald-800">Listing <span className='text-black'>results:</span></h1>
+        <div className="p-7 flex flex-col"> 
+            <h1 className="text-2xl sm:text-3xl font-semibold border-b-2  p-3 text-emerald-800">Listing <span className='text-black'>results:</span></h1>
+            <div className="pt-7 flex flex-row flex-wrap gap-5">
+                {!loading && listings.length === 0 && (
+                    <p className='text-red-500 text-lg sm:text-xl font-semibold mt-4 p-3'>No listings found.</p>
+                )}
+                {loading && (
+                    <p className='text-emerald-700 text-lg sm:text-xl font-semibold mt-4 p-3'>Loading...</p>
+                )}
+                {!loading && listings && listings.map((listing) => (
+                    <ListingItem  key={listing._id} listing={listing} />
+                ))}
+            </div>
         </div> 
     </div>
   )

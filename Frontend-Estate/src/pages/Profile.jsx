@@ -104,9 +104,6 @@ export default function Profile() {
       setListingLoader(false);
       if(data.success == false){
         setShowListingErr(true);
-        setTimeout(()=>{
-        setShowListingErr(false);
-      },5000)
         return;
       }
       setShowListingErr(false);
@@ -125,6 +122,7 @@ export default function Profile() {
       });
       const data = await response.json();
       setDeleteListingLoader(false);
+      setShowListingErr(false);
       if (data.success == false) {
         setShowListingErr(true);
         return;
