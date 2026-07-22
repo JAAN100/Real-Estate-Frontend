@@ -1,6 +1,6 @@
-import { useEffect} from 'react'
+import {React , useEffect} from 'react'
 import {Routes , Route} from "react-router-dom"
-import { useDispatch , useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Home from './pages/Home'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
@@ -13,28 +13,33 @@ import EditListing from './pages/EditListing'
 import Listing from './pages/Listing'
 import Search from './pages/Search'
 import { signOutSuccess } from './redux/user/userSlice'
+
 export default function App() {
   const dispatch = useDispatch();
-  const {currentUser} = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   useEffect(() => {
-    if(!currentUser){
-      return;
-    }
-    const verfiyToken = async () => {
-      try {
-        const response = await fetch("/api/auth/verify" , {
-          method : "GET" 
-        })
-        const data = await response.json();
-        if(!response.ok || !data.success === false){
+    if (!currentUser) return;
+
+    const verifySession = async () => {
+        const res = await fetch('/api/auth/verify');
+        if (res.status === 401 || res.status === 403) {
+          dispatch(signOutSuccess());
+          return;
+        }
+        if (!res.ok) return;
+ 
+        const contentType = res.headers.get('content-type') || '';
+        if (!contentType.includes('application/json')) return;
+ 
+        const data = await res.json();
+        if (data.success === false) {
           dispatch(signOutSuccess());
         }
-      } catch (error) {
-        dispatch(signOutSuccess());
-      }
-    }
-    verfiyToken();
-  },[]);
+    };
+
+    verifySession();
+  }, []); 
+
   return (
     <Routes>
       <Route path='/' element={<Home />}/>
