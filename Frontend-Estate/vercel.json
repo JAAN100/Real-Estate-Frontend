@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://server-estate-xyz.vercel.app/api/:path*" }
+  ]
+}

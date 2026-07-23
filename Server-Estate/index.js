@@ -38,5 +38,7 @@ app.use("/api/listing" , listingRouter);
 
 app.use(AuthMiddleWare);
 
-app.listen(PORT , ()=>{console.log("Connected to the Server");
-})
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => console.log("Connected to the Server"));
+}
+module.exports = app;
