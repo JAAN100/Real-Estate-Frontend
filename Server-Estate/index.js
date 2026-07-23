@@ -31,10 +31,13 @@ app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
 
 
+app.use("/" , (req,res)=>{
+  return res.json({New : "Welcome to the Real Estate API"});
+});
 app.use("/api/auth" , authRouter);
 app.use("/api/user" ,userRouter);
 app.use("/api/listing" , listingRouter);
-//New
+
 app.use(AuthMiddleWare);
 
 if (process.env.NODE_ENV !== 'production') {
