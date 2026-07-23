@@ -31,7 +31,7 @@ app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
 
 
-app.use("/" , (req,res)=>{
+app.get("/" , (req,res)=>{
   return res.json({New : "Welcome to the Real Estate API"});
 });
 app.use("/api/auth" , authRouter);
