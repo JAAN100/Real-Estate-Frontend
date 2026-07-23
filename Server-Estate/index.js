@@ -17,10 +17,15 @@ const { AuthMiddleWare } = require("./middlewares/error.middleware");
 
 
 
-ConnectedToMongoDB(process.env.MONGO_URI)
-.then(()=>{console.log("Connected to MongoDB");
-}).catch((err)=>{console.log(err);
-})
+app.use(async (req, res, next) => {
+  try {
+    await ConnectedToMongoDB(process.env.MONGO_URI);
+    next();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database connection failed" });
+  }
+});
 
 app.use(cors({
   origin: process.env.CLIENT_URL || "http://localhost:5173",
