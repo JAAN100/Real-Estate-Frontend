@@ -13,7 +13,7 @@ import EditListing from './pages/EditListing'
 import Listing from './pages/Listing'
 import Search from './pages/Search'
 import { signOutSuccess } from './redux/user/userSlice'
-
+import ScrollToTop from './components/ScrollToTop'
 export default function App() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
@@ -41,19 +41,22 @@ export default function App() {
   }, []); 
 
   return (
-    <Routes>
-      <Route path='/' element={<Home />}/>
-      <Route path='/sign-in' element={<SignIn />} />
-      <Route path='/sign-up' element={<SignUp />} />
-      <Route path='/listing/:listingId' element={<Listing />} />
-      <Route element={<PrivateProfile/>}>
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/create-listing' element={<CreateListing />} />
-        <Route path='/edit-listing/:id' element={<EditListing />} />
-      </Route>
-      <Route path='/search' element={<Search />} />
-      <Route path='/about' element={<About />} />
-      <Route path='*' element={<NotFound404/>}/>
-     </Routes>
+    <>
+      <ScrollToTop />
+        <Routes>
+          <Route path='/' element={<Home />}/>
+          <Route path='/sign-in' element={<SignIn />} />
+          <Route path='/sign-up' element={<SignUp />} />
+          <Route path='/listing/:listingId' element={<Listing />} />
+          <Route element={<PrivateProfile/>}>
+            <Route path='/profile' element={<Profile />} />
+            <Route path='/create-listing' element={<CreateListing />} />
+            <Route path='/edit-listing/:id' element={<EditListing />} />
+          </Route>
+          <Route path='/search' element={<Search />} />
+          <Route path='/about' element={<About />} />
+          <Route path='*' element={<NotFound404/>}/>
+        </Routes>
+     </>
   )
 }

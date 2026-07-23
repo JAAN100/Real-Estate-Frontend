@@ -54,9 +54,7 @@ export default function Listing() {
         <Swiper navigation>
             {listing.imageUrls.map((url) => (
                 <SwiperSlide key={url}>
-                    <img className='object-cover w-full h-[500px]' src={url} alt="" />
-                    {/* {<div className='h-[500px]' style={{ background: `url(${url}) center no-repeat` , backgroundSize: 'cover' }}>
-                    </div>} */}
+                    <img className='object-contain w-full h-[500px]' src={url} alt="" />
                 </SwiperSlide>
             ))}
         </Swiper>
