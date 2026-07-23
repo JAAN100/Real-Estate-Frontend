@@ -22,11 +22,10 @@ ConnectedToMongoDB(process.env.MONGO_URI)
 }).catch((err)=>{console.log(err);
 })
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
+app.use(cors({
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
