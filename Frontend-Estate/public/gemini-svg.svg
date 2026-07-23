@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <!-- Map Pin Body (Slate) -->
+  <path d="M32 8C20.95 8 12 16.95 12 28C12 41 32 56 32 56C32 56 52 41 52 28C52 16.95 43.05 8 32 8Z" fill="#334155"/>
+  
+  <!-- House Cutout/Accent (Emerald) -->
+  <path d="M32 20L22 28V38H27V32H37V38H42V28L32 20Z" fill="#10B981"/>
+</svg>
