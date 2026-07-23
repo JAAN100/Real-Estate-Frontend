@@ -46,7 +46,9 @@ export default function Listing() {
         contactRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [contactClient]);
   return (
-    <main>  
+    <>
+    <title>Listing</title>
+        <main>  
      {loading && <LoaderCircle className='animate-spin w-50 h-50 m-auto mt-100'/>}
      {error && <div className='text-red-500 text-center mt-10'>{error}</div>}
      {listing && !loading && !error && (
@@ -136,6 +138,7 @@ export default function Listing() {
             </div>
        </div>
      )}
-     </main> 
+        </main> 
+    </>
   )
 }

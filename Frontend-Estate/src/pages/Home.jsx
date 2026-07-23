@@ -56,6 +56,7 @@ export default function Home() {
   },[])
   return (
     <div>
+      <title>Home</title>
       {/* {Top} */}
       <div className='bg-slate-300 w-full'>
         <div className='flex flex-col gap-6 py-28 px-3 max-w-6xl sm:mx-auto'>

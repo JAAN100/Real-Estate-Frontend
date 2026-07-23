@@ -115,144 +115,147 @@ export default function Search() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row">
-      <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-          <div className="flex items-center gap-2">
-            <label className="whitespace-nowrap font-semibold" htmlFor="searchTerm">
-              Search Term:
-            </label>
-            <input
-              type="text"
-              id="searchTerm"
-              onChange={handleChange}
-              value={sideBarData.searchTerm}
-              placeholder="Search..."
-              className="border p-3 rounded-lg w-full focus:border-emerald-500 focus:outline-none"
-            />
-          </div>
-          <div className="flex flex-wrap items-center gap-2 mt-4">
-            <label htmlFor="propertyType" className="font-semibold">
-              Type:
-            </label>
-            <div className="flex gap-2">
+    <>
+      <title>Search</title>
+      <div className="flex flex-col md:flex-row">
+        <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+            <div className="flex items-center gap-2">
+              <label className="whitespace-nowrap font-semibold" htmlFor="searchTerm">
+                Search Term:
+              </label>
               <input
-                type="checkbox"
-                id="all"
-                className="w-5"
+                type="text"
+                id="searchTerm"
                 onChange={handleChange}
-                checked={sideBarData.type === 'all'}
+                value={sideBarData.searchTerm}
+                placeholder="Search..."
+                className="border p-3 rounded-lg w-full focus:border-emerald-500 focus:outline-none"
               />
-              <span>Rent & Sale</span>
             </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="rent"
-                className="w-5"
+            <div className="flex flex-wrap items-center gap-2 mt-4">
+              <label htmlFor="propertyType" className="font-semibold">
+                Type:
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="all"
+                  className="w-5"
+                  onChange={handleChange}
+                  checked={sideBarData.type === 'all'}
+                />
+                <span>Rent & Sale</span>
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="rent"
+                  className="w-5"
+                  onChange={handleChange}
+                  checked={sideBarData.type === 'rent'}
+                />
+                <span>Rent</span>
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="sale"
+                  className="w-5"
+                  onChange={handleChange}
+                  checked={sideBarData.type === 'sale'}
+                />
+                <span>Sale</span>
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="offer"
+                  className="w-5"
+                  onChange={handleChange}
+                  checked={sideBarData.offer}
+                />
+                <span>Offer</span>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 mt-4">
+              <label htmlFor="propertyType" className="font-semibold">
+                Amenities:
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="parking"
+                  className="w-5"
+                  onChange={handleChange}
+                  checked={sideBarData.parking}
+                />
+                <span>Parking</span>
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="furnished"
+                  className="w-5"
+                  onChange={handleChange}
+                  checked={sideBarData.furnished}
+                />
+                <span>Furnished</span>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 mt-4">
+              <label htmlFor="sort_order" className="font-semibold">
+                Sort:
+              </label>
+              <select
+                id="sort_order"
+                className="border p-3 rounded-lg"
                 onChange={handleChange}
-                checked={sideBarData.type === 'rent'}
-              />
-              <span>Rent</span>
+                value={`${sideBarData.sort}_${sideBarData.order}`}
+              >
+                <option value="regularPrice_asc">Price: Low to High</option>
+                <option value="regularPrice_desc">Price: High to Low</option>
+                <option value="createdAt_asc">Date: Oldest First</option>
+                <option value="createdAt_desc">Date: Newest First</option>
+              </select>
             </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="sale"
-                className="w-5"
-                onChange={handleChange}
-                checked={sideBarData.type === 'sale'}
-              />
-              <span>Sale</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="offer"
-                className="w-5"
-                onChange={handleChange}
-                checked={sideBarData.offer}
-              />
-              <span>Offer</span>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-2 mt-4">
-            <label htmlFor="propertyType" className="font-semibold">
-              Amenities:
-            </label>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="parking"
-                className="w-5"
-                onChange={handleChange}
-                checked={sideBarData.parking}
-              />
-              <span>Parking</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="furnished"
-                className="w-5"
-                onChange={handleChange}
-                checked={sideBarData.furnished}
-              />
-              <span>Furnished</span>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-2 mt-4">
-            <label htmlFor="sort_order" className="font-semibold">
-              Sort:
-            </label>
-            <select
-              id="sort_order"
-              className="border p-3 rounded-lg"
-              onChange={handleChange}
-              value={`${sideBarData.sort}_${sideBarData.order}`}
-            >
-              <option value="regularPrice_asc">Price: Low to High</option>
-              <option value="regularPrice_desc">Price: High to Low</option>
-              <option value="createdAt_asc">Date: Oldest First</option>
-              <option value="createdAt_desc">Date: Newest First</option>
-            </select>
-          </div>
-          <button className="bg-emerald-800 text-white rounded-md p-3 uppercase font-semibold hover:opacity-90">
-            Search
-          </button>
-        </form>
-      </div>
-
-      <div className="flex-1">
-        <h1 className="text-2xl sm:text-3xl font-semibold border-b-2 p-3 text-emerald-800">
-          Listing <span className="text-black">results:</span>
-        </h1>
-        <div className="p-7 flex flex-row flex-wrap gap-5">
-          {!loading && listings.length === 0 && (
-            <p className="text-red-500 text-lg sm:text-xl font-semibold mt-4 p-3">
-              No listings found.
-            </p>
-          )}
-          {loading && (
-            <p className="text-emerald-700 text-lg sm:text-xl font-semibold mt-4 p-3">
-              Loading...
-            </p>
-          )}
-          {!loading &&
-            listings &&
-            listings.map((listing) => (
-              <ListingItem key={listing._id} listing={listing} />
-            ))}
-          {showMore && (
-            <button
-              onClick={onShowMoreClick}
-              className="text-green-700 hover:underline p-7 text-center w-full"
-            >
-              Show more...
+            <button className="bg-emerald-800 text-white rounded-md p-3 uppercase font-semibold hover:opacity-90">
+              Search
             </button>
-          )}
+          </form>
+        </div>
+
+        <div className="flex-1">
+          <h1 className="text-2xl sm:text-3xl font-semibold border-b-2 p-3 text-emerald-800">
+            Listing <span className="text-black">results:</span>
+          </h1>
+          <div className="p-7 flex flex-row flex-wrap gap-5">
+            {!loading && listings.length === 0 && (
+              <p className="text-red-500 text-lg sm:text-xl font-semibold mt-4 p-3">
+                No listings found.
+              </p>
+            )}
+            {loading && (
+              <p className="text-emerald-700 text-lg sm:text-xl font-semibold mt-4 p-3">
+                Loading...
+              </p>
+            )}
+            {!loading &&
+              listings &&
+              listings.map((listing) => (
+                <ListingItem key={listing._id} listing={listing} />
+              ))}
+            {showMore && (
+              <button
+                onClick={onShowMoreClick}
+                className="text-green-700 hover:underline p-7 text-center w-full"
+              >
+                Show more...
+              </button>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

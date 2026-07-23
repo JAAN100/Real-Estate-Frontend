@@ -125,6 +125,8 @@ export default function CreateListing() {
     }
   }
   return (
+  <>
+    <title>Create-Listing</title>
     <main className='p-3 max-w-4xl mx-auto'>
       <h1 className='text-center text-3xl font-bold mt-5 my-7 text-emerald-700'>Create <span className='text-black'>Listing</span></h1>
       <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4' action="">
@@ -208,5 +210,6 @@ export default function CreateListing() {
         </div>
        </form>
     </main>
+   </> 
   )
 }

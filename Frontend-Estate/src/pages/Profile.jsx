@@ -139,136 +139,139 @@ export default function Profile() {
     });
   } , [userListings])
   return (
-    <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-7">
-        Profile
-      </h1>
+    <>
+    <title>Profile</title>
+      <div className="p-3 max-w-lg mx-auto">
+        <h1 className="text-3xl font-semibold text-center my-7">
+          Profile
+        </h1>
 
-      <form 
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-5"
-      >
-
-        <div className="flex flex-col items-center gap-3">
-          <img
-            src={formData.avatar || currentUser?.avatar}
-            alt="profile"
-            className="rounded-full border-2 border-gray-300 cursor-pointer"
-            width={150}
-            height={150}
-            onClick={() => uploadRef.current.openUpload()}
-          />
-
-          <CloudinaryUpload
-            ref={uploadRef}
-            onUpload={(url) =>
-              handleFoamDataChange({
-                target: {
-                  id: "avatar",
-                  value: url,
-                },
-              })
-            }
-          />
-          <p className="text-sm text-gray-500">
-            Click on the image to upload a new profile picture
-          </p>
-          <p className="text-sm text-green-500">
-           {formData.avatar !== undefined && formData.avatar !== currentUser?.avatar ? "Photo updated successfully" : ""}
-          </p>
-        </div>
-
-
-        <input
-          type="text"
-          id="username"
-          placeholder="Username"
-          defaultValue={currentUser?.username}
-          onChange={handleFoamDataChange}
-          className="border-2 border-gray-300 rounded-md p-2"
-        />
-
-
-        <input
-          type="email"
-          id="email"
-          placeholder="Email"
-          defaultValue={currentUser?.email}
-          onChange={handleFoamDataChange}
-          className="border-2 border-gray-300 rounded-md p-2"
-        />
-
-
-        <div className="relative">
-          <input 
-            className="border p-3 w-full
-            rounded-lg" type={showPassword ? "text" : "password"} 
-            placeholder="password"
-            id="password" onChange={handleFoamDataChange}
-          />
-          <button
-            type="button"
-            onClick={() => dispatch(setShowPassword(!showPassword))}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600"
-          >
-          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          </button>
-        </div>
-
-
-        <button
-          disabled={loading}
-          type="submit"
-          className="uppercase flex justify-center items-center bg-blue-500 text-white p-2 rounded-md hover:opacity-90 disabled:opacity-50 transition"
+        <form 
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-5"
         >
-         {loading ? <LoaderCircle className="animate-spin h-6 w-6 text-white" /> : "Update"}
+
+          <div className="flex flex-col items-center gap-3">
+            <img
+              src={formData.avatar || currentUser?.avatar}
+              alt="profile"
+              className="rounded-full border-2 border-gray-300 cursor-pointer"
+              width={150}
+              height={150}
+              onClick={() => uploadRef.current.openUpload()}
+            />
+
+            <CloudinaryUpload
+              ref={uploadRef}
+              onUpload={(url) =>
+                handleFoamDataChange({
+                  target: {
+                    id: "avatar",
+                    value: url,
+                  },
+                })
+              }
+            />
+            <p className="text-sm text-gray-500">
+              Click on the image to upload a new profile picture
+            </p>
+            <p className="text-sm text-green-500">
+            {formData.avatar !== undefined && formData.avatar !== currentUser?.avatar ? "Photo updated successfully" : ""}
+            </p>
+          </div>
+
+
+          <input
+            type="text"
+            id="username"
+            placeholder="Username"
+            defaultValue={currentUser?.username}
+            onChange={handleFoamDataChange}
+            className="border-2 border-gray-300 rounded-md p-2"
+          />
+
+
+          <input
+            type="email"
+            id="email"
+            placeholder="Email"
+            defaultValue={currentUser?.email}
+            onChange={handleFoamDataChange}
+            className="border-2 border-gray-300 rounded-md p-2"
+          />
+
+
+          <div className="relative">
+            <input 
+              className="border p-3 w-full
+              rounded-lg" type={showPassword ? "text" : "password"} 
+              placeholder="password"
+              id="password" onChange={handleFoamDataChange}
+            />
+            <button
+              type="button"
+              onClick={() => dispatch(setShowPassword(!showPassword))}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600"
+            >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
+
+
+          <button
+            disabled={loading}
+            type="submit"
+            className="uppercase flex justify-center items-center bg-blue-500 text-white p-2 rounded-md hover:opacity-90 disabled:opacity-50 transition"
+          >
+          {loading ? <LoaderCircle className="animate-spin h-6 w-6 text-white" /> : "Update"}
+          </button>
+          <Link to="/create-listing" className="text-center p-2 uppercase rounded-md text-white bg-emerald-700 hover:opacity-90 transition">
+            Create Listing
+          </Link>
+
+          <p className="text-green-500 text-center">
+            {successMessage ? "Profile updated successfully" : ""}
+          </p>
+              {error ? <p className="bg-orange-600
+                text-white mt-2 rounded-lg uppercase p-3">{error}</p> : ""}
+          <div className="flex justify-between">
+            <span onClick={handleDelete} className="text-red-700 cursor-pointer hover:opacity-60">
+              Delete Account
+            </span>
+
+            <span onClick={handleSignOut} className="text-red-700 cursor-pointer hover:opacity-60">
+              Sign out
+            </span>
+          </div>
+        </form>
+        <button onClick={handleListing} className="text-green-700 m-auto block mt-3">
+            {listingLoader ? "Load Listing..." : "Show Listng"}
         </button>
-        <Link to="/create-listing" className="text-center p-2 uppercase rounded-md text-white bg-emerald-700 hover:opacity-90 transition">
-          Create Listing
-        </Link>
-
-        <p className="text-green-500 text-center">
-          {successMessage ? "Profile updated successfully" : ""}
-        </p>
-            {error ? <p className="bg-orange-600
-              text-white mt-2 rounded-lg uppercase p-3">{error}</p> : ""}
-        <div className="flex justify-between">
-          <span onClick={handleDelete} className="text-red-700 cursor-pointer hover:opacity-60">
-            Delete Account
-          </span>
-
-          <span onClick={handleSignOut} className="text-red-700 cursor-pointer hover:opacity-60">
-            Sign out
-          </span>
-        </div>
-      </form>
-      <button onClick={handleListing} className="text-green-700 m-auto block mt-3">
-          {listingLoader ? "Load Listing..." : "Show Listng"}
-      </button>
-      {showListingErr && <p className="text-red-700 text-center mt-1">No listing found</p>}
-       
-          {userListings && userListings.length > 0 && 
-           (<div className="mt-5" ref={listingRef}>
-            <h1 className="text-center text-2xl font-semibold">Your Listing</h1>
-            {deleteListingLoader && <p className="text-center text-red-700">Deleting Listing...</p>}
-            {
-              userListings.map((listing)=>(
-                <div key={listing._id} className="flex flex-row justify-between items-center mt-3 border border-slate-300 p-4 rounded-md">
-                  <Link to={`/listing/${listing._id}`}>
-                    <img className="h-16 w-16 object-contain" src={listing.imageUrls[0]} alt="listing-cover"/>
-                  </Link>
-                  <Link to={`/listing/${listing._id}`} className="flex-1 mx-3 hover:underline truncate">
-                    <p className="font-semibold">{listing.name}</p>
-                  </Link>
-                  <div className="flex flex-col gap-1">
-                    <button onClick={(e) => handleDeleteListing(listing._id, e)} className="text-red-700 uppercase hover:opacity-60">Delete</button>
-                    <Link to={`/edit-listing/${listing._id}`}> <button className="text-green-700 uppercase hover:opacity-60">Edit</button> </Link>
+        {showListingErr && <p className="text-red-700 text-center mt-1">No listing found</p>}
+        
+            {userListings && userListings.length > 0 && 
+            (<div className="mt-5" ref={listingRef}>
+              <h1 className="text-center text-2xl font-semibold">Your Listing</h1>
+              {deleteListingLoader && <p className="text-center text-red-700">Deleting Listing...</p>}
+              {
+                userListings.map((listing)=>(
+                  <div key={listing._id} className="flex flex-row justify-between items-center mt-3 border border-slate-300 p-4 rounded-md">
+                    <Link to={`/listing/${listing._id}`}>
+                      <img className="h-16 w-16 object-contain" src={listing.imageUrls[0]} alt="listing-cover"/>
+                    </Link>
+                    <Link to={`/listing/${listing._id}`} className="flex-1 mx-3 hover:underline truncate">
+                      <p className="font-semibold">{listing.name}</p>
+                    </Link>
+                    <div className="flex flex-col gap-1">
+                      <button onClick={(e) => handleDeleteListing(listing._id, e)} className="text-red-700 uppercase hover:opacity-60">Delete</button>
+                      <Link to={`/edit-listing/${listing._id}`}> <button className="text-green-700 uppercase hover:opacity-60">Edit</button> </Link>
+                    </div>
                   </div>
-                </div>
-              ))
-            }
-          </div>)
-          }    
-    </div>
+                ))
+              }
+            </div>)
+            }    
+      </div>
+    </>
   );
 }
