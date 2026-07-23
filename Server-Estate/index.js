@@ -34,7 +34,7 @@ app.use(cookieParser());
 app.use("/api/auth" , authRouter);
 app.use("/api/user" ,userRouter);
 app.use("/api/listing" , listingRouter);
-
+//New
 app.use(AuthMiddleWare);
 
 if (process.env.NODE_ENV !== 'production') {
