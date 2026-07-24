@@ -7,6 +7,7 @@ import { Navigation } from 'swiper/modules';
 import {FaShare , FaMapMarkerAlt , FaBed , FaToilet , FaParking , FaChair}  from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import Contact from '../components/Contact';
+import Footer from '../components/Footer';
 import 'swiper/css/bundle';
 export default function Listing() {
     SwiperCore.use([Navigation]);
@@ -139,6 +140,7 @@ export default function Listing() {
        </div>
      )}
         </main> 
+        <Footer />
     </>
   )
 }

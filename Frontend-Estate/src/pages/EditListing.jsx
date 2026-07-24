@@ -2,7 +2,7 @@ import {useState , useEffect} from 'react'
 import {uploadFile} from '../components/CloudinaryUpload';
 import {LoaderCircle} from 'lucide-react';
 import { useNavigate , useParams} from 'react-router-dom';
-
+import Footer from '../components/Footer'
 export default function EditListing() {
   const [files , setFiles] = useState([]);
   const [foamData , setFormData] = useState({
@@ -235,6 +235,7 @@ export default function EditListing() {
           </div>
         </form>
       </main>
+      <Footer />
     </>
   )
 }

@@ -2,6 +2,7 @@ import {useState , useEffect} from 'react'
 import {uploadFile} from '../components/CloudinaryUpload';
 import {LoaderCircle} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../components/Footer';
 export default function CreateListing() {
   const [files , setFiles] = useState([]);
   const [foamData , setFormData] = useState({
@@ -210,6 +211,7 @@ export default function CreateListing() {
         </div>
        </form>
     </main>
+    <Footer />
    </> 
   )
 }
