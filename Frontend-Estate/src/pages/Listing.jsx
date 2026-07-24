@@ -61,7 +61,7 @@ export default function Listing() {
                 </SwiperSlide>
             ))}
         </Swiper>
-        <div className='fixed top-[13%] right-[5%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer'>
+        <div className='fixed top-[20%] right-[5%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer'>
             <FaShare title='Copy the Link' className='text-slate-500'  
                 onClick={()=>{
                     navigator.clipboard.writeText(window.location.href);
